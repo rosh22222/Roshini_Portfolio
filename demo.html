@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<body style="margin:0; height:100vh; background:#222; overflow:hidden; cursor:none;">
+  <!-- Optional: your page content could go here -->
+
+  <!-- sparkle trail styles and animation keyframes -->
+  <style>
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 9999;
+      opacity: 0.8;
+      animation: sparkle-fall 1s forwards;
+    }
+    @keyframes sparkle-fall {
+      to { transform: translateY(30px); opacity: 0; }
+    }
+  </style>
+
+  <!-- sparkle trail script -->
+  <script>
+    const trailSizes = [1, 0.9, 0.8, 0.6, 0.4];
+    const colors = ['#fff','#ffeb3b','#00bcd4'];
+
+    function spawnSparkle(x, y, intensity) {
+      const el = document.createElement('div');
+      const size = Math.ceil(Math.random() * 10 * intensity);
+      el.classList.add('sparkle');
+      el.style.width = el.style.height = size + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.left = x + Math.round((Math.random()*50-25)*intensity) + 'px';
+      el.style.top = y + Math.round((Math.random()*50-25)*intensity) + 'px';
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }
+
+    window.addEventListener('mousemove', e => {
+      trailSizes.forEach(intensity => spawnSparkle(e.pageX, e.pageY, intensity));
+    });
+  </script>
+</body>
+</html>
